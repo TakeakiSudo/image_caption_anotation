@@ -21,7 +21,12 @@ function App() {
   const [supportSpeech, setSupportSpeech] = useState(false);
 
   const recognitionRef = useRef(null);
+  const textareaRef = useRef(null);
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const canUseSpeechButton = supportSpeech && !isIOS;
 
   useEffect(() => {
     setSupportSpeech(Boolean(SpeechRecognition));
@@ -201,6 +206,11 @@ function App() {
   };
 
   const startSpeech = () => {
+    if (isIOS) {
+      setError("iPhone/iPadは音声開始ボタン非対応です。キーボードのマイクで入力してください。");
+      if (textareaRef.current) textareaRef.current.focus();
+      return;
+    }
     if (!SpeechRecognition) {
       setError("このブラウザでは音声認識が使えません。手入力をご利用ください。");
       return;
@@ -324,15 +334,26 @@ function App() {
         </div>
 
         <div className="editor">
+          <section className="card cue-card inline-cue">
+            <div className="label">所見カンペ</div>
+            <ul className="cue-list">
+              <li>歯周病の有無</li>
+              <li>カリエスについて</li>
+              <li>歯列不正など歯列所見</li>
+              <li>補綴について</li>
+              <li>その他異常所見</li>
+            </ul>
+          </section>
           <div className="label">所見</div>
           <textarea
+            ref={textareaRef}
             rows="10"
             placeholder="ここに所見を入力（音声入力可）"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
           <div className="row">
-            <button onClick={startSpeech} disabled={!supportSpeech || listening}>
+            <button onClick={startSpeech} disabled={!canUseSpeechButton || listening}>
               音声開始
             </button>
             <button onClick={stopSpeech} disabled={!listening}>
@@ -345,6 +366,7 @@ function App() {
           {!supportSpeech && (
             <p className="hint">このブラウザでは音声認識非対応です。手入力で運用してください。</p>
           )}
+          {isIOS && <p className="hint">iPhone/iPadはキーボードのマイク入力をご利用ください。</p>}
           {error && <p className="error">{error}</p>}
         </div>
       </section>
@@ -369,16 +391,6 @@ function App() {
         </section>
       )}
 
-      <section className="card cue-card">
-        <div className="label">所見カンペ</div>
-        <ul className="cue-list">
-          <li>歯周病の有無</li>
-          <li>カリエスについて</li>
-          <li>歯列不正など歯列所見</li>
-          <li>補綴について</li>
-          <li>その他異常所見</li>
-        </ul>
-      </section>
     </div>
   );
 }
