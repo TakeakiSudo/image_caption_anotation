@@ -179,10 +179,13 @@ h1 {
 
 .nav-cue {
   flex: 1 1 auto;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fffdf6;
-  padding: 6px 8px;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.nav-cue .grid-cue-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (max-width: 900px) {
@@ -242,12 +245,6 @@ h1 {
   input[type="file"],
   select {
     font-size: 16px;
-  }
-}
-
-@media (min-width: 901px) {
-  .grid-cue-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

@@ -370,7 +370,6 @@ function App() {
               </button>
             </div>
             <div className="nav-cue">
-              <div className="label">所見カンペ</div>
               <ul className="cue-list grid-cue-list">
                 <li>歯周病の有無</li>
                 <li>カリエスについて</li>
