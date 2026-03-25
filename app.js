@@ -360,13 +360,25 @@ function App() {
               {currentImage.name} | {currentImage.annotated ? "入力済み" : "未入力"}
             </div>
           )}
-          <div className="row">
-            <button className="secondary" onClick={() => move(-1)} disabled={!images.length}>
-              前へ
-            </button>
-            <button className="secondary" onClick={() => move(1)} disabled={!images.length}>
-              次へ
-            </button>
+          <div className="nav-cue-row">
+            <div className="nav-buttons">
+              <button className="secondary" onClick={() => move(-1)} disabled={!images.length}>
+                前へ
+              </button>
+              <button className="secondary" onClick={() => move(1)} disabled={!images.length}>
+                次へ
+              </button>
+            </div>
+            <div className="nav-cue">
+              <div className="label">所見カンペ</div>
+              <ul className="cue-list grid-cue-list">
+                <li>歯周病の有無</li>
+                <li>カリエスについて</li>
+                <li>歯列不正など歯列所見</li>
+                <li>補綴について</li>
+                <li>その他異常所見</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -398,16 +410,6 @@ function App() {
             <p className="hint">このブラウザでは音声認識非対応です。手入力で運用してください。</p>
           )}
           {isIOS && <p className="hint">iPhone/iPadはキーボードのマイク入力をご利用ください。</p>}
-          <section className="card cue-card inline-cue under-findings">
-            <div className="label">所見カンペ</div>
-            <ul className="cue-list grid-cue-list">
-              <li>歯周病の有無</li>
-              <li>カリエスについて</li>
-              <li>歯列不正など歯列所見</li>
-              <li>補綴について</li>
-              <li>その他異常所見</li>
-            </ul>
-          </section>
           {error && <p className="error">{error}</p>}
         </div>
       </section>
