@@ -363,7 +363,7 @@ function App() {
         </div>
 
         <div className="editor">
-          <div className="label">所見</div>
+          <div className="label">所見(欠損/カリエス/歯周病/歯列/その他)</div>
           <textarea
             ref={textareaRef}
             rows="5"
@@ -407,9 +407,8 @@ function App() {
             {images.map((img, idx) => (
               <button
                 key={img.id}
-                className={`thumb ${idx === currentIndex ? "active" : ""} ${
-                  img.annotated ? "done" : "todo"
-                }`}
+                className={`thumb ${idx === currentIndex ? "active" : ""} ${img.annotated ? "done" : "todo"
+                  }`}
                 onClick={() => selectImage(idx)}
               >
                 <div className="thumb-label">{idx + 1}</div>
