@@ -54,7 +54,7 @@ h1 {
 
 .preview {
   width: 100%;
-  max-height: 68vh;
+  max-height: 52vh;
   object-fit: contain;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -206,5 +206,9 @@ select {
 
   h1 {
     font-size: 22px;
+  }
+
+  .preview {
+    max-height: 38vh;
   }
 }

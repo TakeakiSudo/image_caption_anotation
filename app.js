@@ -1,7 +1,11 @@
 const { useEffect, useMemo, useRef, useState } = React;
+const DEFAULT_GAS_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbxPNm8hIFuOAcYKVika9wflNyLlBtgz9EcA-TrGnzxs2JKLRIEk4cFFOHuupJVQVgfP/exec";
 
 function App() {
-  const [endpoint, setEndpoint] = useState(localStorage.getItem("gasEndpoint") || "");
+  const [endpoint, setEndpoint] = useState(
+    localStorage.getItem("gasEndpoint") || DEFAULT_GAS_ENDPOINT
+  );
   const [annotator, setAnnotator] = useState(localStorage.getItem("annotator") || "");
   const [folders, setFolders] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState("");
@@ -204,8 +208,9 @@ function App() {
     try {
       const recognition = new SpeechRecognition();
       recognition.lang = "ja-JP";
-      recognition.interimResults = true;
-      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.continuous = false;
+      recognition.maxAlternatives = 1;
       recognition.onresult = (event) => {
         let text = "";
         for (let i = 0; i < event.results.length; i += 1) {
@@ -214,7 +219,13 @@ function App() {
         setCaption(text.trim());
       };
       recognition.onerror = (e) => {
-        setError(`音声認識エラー: ${e.error}`);
+        if (e.error === "service-not-allowed" || e.error === "not-allowed") {
+          setError(
+            "音声認識エラー: service-not-allowed。iPhone/iPadではSafariのキーボード音声入力（マイク）をご利用ください。"
+          );
+        } else {
+          setError(`音声認識エラー: ${e.error}`);
+        }
         setListening(false);
       };
       recognition.onend = () => setListening(false);
