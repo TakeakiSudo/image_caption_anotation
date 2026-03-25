@@ -360,25 +360,6 @@ function App() {
               {currentImage.name} | {currentImage.annotated ? "入力済み" : "未入力"}
             </div>
           )}
-          <div className="nav-cue-row">
-            <div className="nav-buttons">
-              <button className="secondary" onClick={() => move(-1)} disabled={!images.length}>
-                前へ
-              </button>
-              <button className="secondary" onClick={() => move(1)} disabled={!images.length}>
-                次へ
-              </button>
-            </div>
-            <div className="nav-cue">
-              <ul className="cue-list grid-cue-list">
-                <li>歯周病の有無</li>
-                <li>カリエスについて</li>
-                <li>歯列不正など歯列所見</li>
-                <li>補綴について</li>
-                <li>その他異常所見</li>
-              </ul>
-            </div>
-          </div>
         </div>
 
         <div className="editor">
@@ -390,7 +371,7 @@ function App() {
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
           />
-          <div className="row">
+          <div className="row editor-actions">
             {!isIOS && (
               <button onClick={startSpeech} disabled={!canUseSpeechButton || listening}>
                 音声開始
@@ -403,6 +384,12 @@ function App() {
             )}
             <button onClick={saveCurrent} disabled={!currentImage || saving}>
               {saving ? "保存中..." : "保存して次の未入力へ"}
+            </button>
+            <button className="secondary" onClick={() => move(-1)} disabled={!images.length}>
+              前へ
+            </button>
+            <button className="secondary" onClick={() => move(1)} disabled={!images.length}>
+              次へ
             </button>
           </div>
           {!supportSpeech && (

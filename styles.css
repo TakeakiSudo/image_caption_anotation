@@ -164,28 +164,8 @@ h1 {
   line-height: 1.25;
 }
 
-.nav-cue-row {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 8px;
-  flex: 0 0 auto;
-}
-
-.nav-cue {
-  flex: 1 1 auto;
-  border: none;
-  background: transparent;
-  padding: 0;
-}
-
-.nav-cue .grid-cue-list {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.editor-actions {
+  margin-top: 6px;
 }
 
 @media (max-width: 900px) {
@@ -207,7 +187,7 @@ h1 {
   }
 
   .preview-shell {
-    height: 30vh;
+    height: 24vh;
   }
 
   .inline-cue {
@@ -230,14 +210,6 @@ h1 {
 
   .grid-cue-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .nav-cue-row {
-    gap: 8px;
-  }
-
-  .nav-cue {
-    padding: 4px 6px;
   }
 
   textarea,
