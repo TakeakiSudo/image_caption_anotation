@@ -19,6 +19,8 @@ function App() {
   const [saving, setSaving] = useState(false);
   const [listening, setListening] = useState(false);
   const [supportSpeech, setSupportSpeech] = useState(false);
+  const [imageScale, setImageScale] = useState(1);
+  const [fitMode, setFitMode] = useState("fit");
 
   const recognitionRef = useRef(null);
   const textareaRef = useRef(null);
@@ -197,6 +199,8 @@ function App() {
     setCurrentIndex(index);
     const img = images[index];
     setCaption(img?.annotated ? img.caption || "" : "");
+    setImageScale(1);
+    setFitMode("fit");
   };
 
   const move = (delta) => {
@@ -309,9 +313,42 @@ function App() {
           <div className="progress">
             画像: {progress} | 入力済み: {completedCount}/{images.length}
           </div>
+          <div className="row image-tools">
+            <button className="secondary" onClick={() => setImageScale((s) => Math.max(0.6, s - 0.1))}>
+              縮小
+            </button>
+            <button className="secondary" onClick={() => setImageScale((s) => Math.min(2.5, s + 0.1))}>
+              拡大
+            </button>
+            <button className="secondary" onClick={() => setFitMode("fit")}>
+              全体
+            </button>
+            <button className="secondary" onClick={() => setFitMode("width")}>
+              幅
+            </button>
+            <button className="secondary" onClick={() => setFitMode("height")}>
+              高さ
+            </button>
+            <button
+              className="secondary"
+              onClick={() => {
+                setImageScale(1);
+                setFitMode("fit");
+              }}
+            >
+              リセット
+            </button>
+          </div>
           {currentImage ? (
             currentImage.url ? (
-              <img className="preview" src={currentImage.url} alt={currentImage.name} />
+              <div className="preview-shell">
+                <img
+                  className={`preview preview-${fitMode}`}
+                  style={{ transform: `scale(${imageScale})` }}
+                  src={currentImage.url}
+                  alt={currentImage.name}
+                />
+              </div>
             ) : (
               <div className="empty">{loadingCurrentImage ? "画像を取得中..." : "画像を取得できません"}</div>
             )
@@ -334,20 +371,10 @@ function App() {
         </div>
 
         <div className="editor">
-          <section className="card cue-card inline-cue">
-            <div className="label">所見カンペ</div>
-            <ul className="cue-list">
-              <li>歯周病の有無</li>
-              <li>カリエスについて</li>
-              <li>歯列不正など歯列所見</li>
-              <li>補綴について</li>
-              <li>その他異常所見</li>
-            </ul>
-          </section>
           <div className="label">所見</div>
           <textarea
             ref={textareaRef}
-            rows="10"
+            rows="5"
             placeholder="ここに所見を入力（音声入力可）"
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
@@ -371,6 +398,16 @@ function App() {
             <p className="hint">このブラウザでは音声認識非対応です。手入力で運用してください。</p>
           )}
           {isIOS && <p className="hint">iPhone/iPadはキーボードのマイク入力をご利用ください。</p>}
+          <section className="card cue-card inline-cue under-findings">
+            <div className="label">所見カンペ</div>
+            <ul className="cue-list grid-cue-list">
+              <li>歯周病の有無</li>
+              <li>カリエスについて</li>
+              <li>歯列不正など歯列所見</li>
+              <li>補綴について</li>
+              <li>その他異常所見</li>
+            </ul>
+          </section>
           {error && <p className="error">{error}</p>}
         </div>
       </section>
