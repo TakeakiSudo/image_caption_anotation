@@ -207,7 +207,7 @@ function App() {
 
   const startSpeech = () => {
     if (isIOS) {
-      setError("iPhone/iPadは音声開始ボタン非対応です。キーボードのマイクで入力してください。");
+      setError("");
       if (textareaRef.current) textareaRef.current.focus();
       return;
     }
@@ -353,12 +353,16 @@ function App() {
             onChange={(e) => setCaption(e.target.value)}
           />
           <div className="row">
-            <button onClick={startSpeech} disabled={!canUseSpeechButton || listening}>
-              音声開始
-            </button>
-            <button onClick={stopSpeech} disabled={!listening}>
-              音声停止
-            </button>
+            {!isIOS && (
+              <button onClick={startSpeech} disabled={!canUseSpeechButton || listening}>
+                音声開始
+              </button>
+            )}
+            {!isIOS && (
+              <button onClick={stopSpeech} disabled={!listening}>
+                音声停止
+              </button>
+            )}
             <button onClick={saveCurrent} disabled={!currentImage || saving}>
               {saving ? "保存中..." : "保存して次の未入力へ"}
             </button>

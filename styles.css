@@ -54,8 +54,9 @@ h1 {
 
 .preview {
   width: 100%;
-  max-height: 40vh;
+  max-height: 30vh;
   object-fit: contain;
+  object-position: left center;
   border: 1px solid var(--line);
   border-radius: 10px;
   background: #f8fafc;
@@ -184,12 +185,15 @@ select {
 
 .cue-list li {
   margin: 4px 0;
+  font-size: 12px;
+  line-height: 1.25;
 }
 
 .hint {
   margin: 8px 0 0;
   color: var(--muted);
   font-size: 13px;
+  word-break: break-all;
 }
 
 .error {
@@ -205,6 +209,15 @@ select {
 }
 
 @media (max-width: 900px) {
+  .container {
+    padding: 8px;
+  }
+
+  .card {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }
@@ -214,6 +227,25 @@ select {
   }
 
   .preview {
-    max-height: 28vh;
+    max-height: 16vh;
+    object-position: left center;
+  }
+
+  .inline-cue {
+    padding: 6px;
+  }
+
+  .inline-cue .label {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .inline-cue .cue-list {
+    padding-left: 16px;
+  }
+
+  .inline-cue .cue-list li {
+    font-size: 10px;
+    margin: 2px 0;
   }
 }
